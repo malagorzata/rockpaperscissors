@@ -1,8 +1,13 @@
 "use strict";
-window.addEventListener("DOMContentLoaded", start);
 let winner ="computer";
-let computerChoice = "paper";
-let userChoice = "scissors";
+// let computerChoice = "scissors";
+// let userChoice = "paper";
+let userChoice
+let computerRandom
+
+let random = Math.floor(Math.random() * 3) + 1
+
+window.addEventListener("DOMContentLoaded", start);
 
 
 
@@ -13,93 +18,129 @@ getPlayerChoice();
 
 function getPlayerChoice() {
     console.log("playerChoice");
-    // document.querySelector("button.rock").addEventListener("click", chooseRock);
-    // document.querySelector("button.paper").addEventListener("click", choosePaper);
-    document.querySelector("button.scissors").addEventListener("click", chooseScissors);
-
-
+    document.querySelector(".scissors").addEventListener("click", chooseScissors);   
+    document.querySelector(".paper").addEventListener("click", choosePaper);
+    document.querySelector(".rock").addEventListener("click", chooseRock);
 
 }
 
 function chooseRock() {
     console.log("chooseRock");
+    userChoice = "rock";
     getComputerChoice();
 }
 
 function chooseScissors() {
-    console.log("chooseRock");
+    console.log("chooseScissors");
+    userChoice = "scissors"
     getComputerChoice();
 }
 
 function choosePaper() {
-    console.log("chooseRock");
+    console.log("choosePaper");
+    userChoice = "paper"
     getComputerChoice();
 }
 
 function getComputerChoice() {
     console.log("getComputerChoice");
-    document.querySelector("#player1").classList.add("shake");
-    document.querySelector("#player2").classList.add("shake");
-
-showAnimation();
-  
+      document.querySelector("#player2").classList.add("shake");
+      document.querySelector("#player1").classList.add("shake");
+      document.querySelector("#player1").addEventListener("animationend", showAnimations);
+     
 }
 
-function showAnimation() {
+function showAnimations() {
     console.log("animations");
 
-    document.querySelector("#player1").classList.remove("shake");
-    document.querySelector("#player2").classList.remove("shake");
+    if (userChoice === "paper") {
+        console.log("paper");
+        document.querySelector("#player1").classList.remove("shake");
+        document.querySelector("#player1").classList.add("paper");
 
-    if (userChoice === "rock") {
+    } else if (userChoice === "scissors") {
+        console.log("scissors");
+
+        document.querySelector("#player1").classList.remove("shake");
+        document.querySelector("#player1").classList.add("scissors");
+
+    } else {
+        console.log("rock");
+        document.querySelector("#player1").classList.remove("shake");
         document.querySelector("#player1").classList.add("rock");
 
     }
+    if (random === 1) {
+        document.querySelector("#player2").classList.remove("shake");
+        document.querySelector("#player2").classList.add("paper");
+        document.querySelector("#player2").addEventListener("animationend", winnerResult);
 
-    if (userChoice === "paper") {
-        document.querySelector("#player1").classList.add("paper");
+      }
+  
+      if (random === 2) {
+        document.querySelector("#player2").classList.remove("shake");
+        document.querySelector("#player2").classList.add("rock");
+        document.querySelector("#player2").addEventListener("animationend", winnerResult);
+
+      }
+      if (random === 3) {
+        document.querySelector("#player2").classList.remove("shake");
+        document.querySelector("#player2").classList.add("scissors");
+        document.querySelector("#player2").addEventListener("animationend", winnerResult);
+
+      }
+
+
+
+}
+
+
+function winnerResult() {
+
+    if (random === userChoice) {
+        document.querySelector("#draw").classList.remove("hidden");
+        setTimeout(again, 1500);
 
     }
-    if (userChoice === "scissors") {
-        document.querySelector("#player1").classList.add("scissors");
+    if (random === 2 && userChoice === "paper") {
+        document.querySelector("#win").classList.remove("hidden");
+        setTimeout(again, 1500);
 
     }
+    if (random === 2 && userChoice === "scissors") {
+        document.querySelector("#lose").classList.remove("hidden");
+        setTimeout(again, 1500);
 
-    // document.querySelector("#player1").classList.add("paper");
-    // document.querySelector("#player2").classList.add("scissors");
-
-
-    determinWinner();
-
-}
-
-function determinWinner() {
-    console.log("winnter");
-    if (winner === "computer") {
-        showLose();
-    } else if (winner === "user") {
-        showWin();
-
-    } else {
-        showDraw();
     }
+    if (random === 1 && userChoice === "scissors") {
+        document.querySelector("#win").classList.remove("hidden");
+        setTimeout(again, 1500);
 
-}
+    }
+    if (random === 1 && userChoice === "rock") {
+        document.querySelector("#lose").classList.remove("hidden");
+        setTimeout(again, 1500);
 
-function showWin() {
-    console.log("who won");
+    }
+    if (random ===  3 && userChoice === "rock"){
+        document.querySelector("#win").classList.remove("hidden");
+        setTimeout(again, 1500);
 
+    }
+    if (random === 3 && userChoice === "paper") {
+        document.querySelector("#lose").classList.remove("hidden");
+        setTimeout(again, 1500);
 
-}
+    }
+  }
+  
 
-function showLose() {   
-     console.log("who lost");
-
-
-}
-
-function showDraw() {
-    console.log("draw");
-
-
-}
+  function again() {
+    document.querySelector("#draw").classList.add("hidden");
+    document.querySelector("#win").classList.add("hidden");
+    document.querySelector("#lose").classList.add("hidden");
+  
+    document.querySelector("#player2").classList.remove("paper", "scissors", "rock");
+    document.querySelector("#player1").classList.remove("paper", "scissors", "rock");
+  }
+  
